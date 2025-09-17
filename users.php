@@ -1,35 +1,24 @@
 <?php
-// --- Database Connection ---
-
 require 'vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-// Load database credentials securely from the .env file
-$servername = $_ENV['localhost'];
-$username   = $_ENV['root'];
-$password   = $_ENV['123456'];
-// $port       = $_ENV['DbPort'];
-$dbname     = $_ENV['Users'];
+$servername = $_ENV['DB_HOST'];
+$username   = $_ENV['DB_USER'];
+$password   = $_ENV['DB_PASS'];
+$port       = $_ENV['DB_PORT']; 
+$dbname     = $_ENV['DB_NAME'];
 
-
-
-//create connection including the port number
 $conn = new mysqli($servername, $username, $password, $dbname, $port);
 
-//check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} else {
-    echo "Connected successfully to the '" . $dbname . "' database.";
+    die("❌ Connection failed: " . $conn->connect_error);
 }
-
+echo "✅ Connected successfully to the '" . $dbname . "' database.<br><br>";
 
 // --- Fetch Users ---
-// SQL query to get all users, ordered by their ID
-$sql = "SELECT id, name, email, reg_date FROM users ORDER BY id ASC";
+$sql = "SELECT id, name, email, reg_date FROM app_users ORDER BY id ASC";
 $result = $conn->query($sql);
-
 ?>
 
 <!DOCTYPE html>
@@ -38,27 +27,29 @@ $result = $conn->query($sql);
     <meta charset="UTF-8">
     <title>Registered Users</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; }
-        ol { list-style-type: decimal; } /* This ensures the list is numbered */
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h1 { color: #333; }
+        ol { list-style-type: decimal; }
+        li { margin-bottom: 8px; }
+        .empty { color: gray; }
     </style>
 </head>
 <body>
-
     <h1>List of Registered Users</h1>
 
     <ol>
         <?php
-        if ($result->num_rows > 0) {
-            // Output data of each row
-            while($row = $result->fetch_assoc()) {
-                echo "<li>Name: " . htmlspecialchars($row["name"]) . " - Email: " . htmlspecialchars($row["email"]) . " - Registered: " . $row["reg_date"] . "</li>";
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<li><strong>" . htmlspecialchars($row["name"]) . "</strong> (" 
+                     . htmlspecialchars($row["email"]) . ") - Registered: " 
+                     . htmlspecialchars($row["reg_date"]) . "</li>";
             }
         } else {
-            echo "<li>No users found.</li>";
+            echo "<li class='empty'>No users found.</li>";
         }
         $conn->close();
         ?>
     </ol>
-
 </body>
 </html>

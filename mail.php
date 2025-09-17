@@ -3,41 +3,30 @@ require 'vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Only run the script if the form has been submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
 
-          // Load database credentials securely from the .env file
 $servername = $_ENV['DB_HOST'];
 $username   = $_ENV['DB_USER'];
 $password   = $_ENV['DB_PASS'];
 $port       = $_ENV['DB_PORT'];
 $dbname     = $_ENV['DB_NAME'];
 
-
-
-    // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname, $port);
 
-    // Check connection
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    
-
-    // Get the email and name from the user's form submission
-    $userEmail = $_POST['email'];
+        $userEmail = $_POST['email'];
     $userName = $_POST['name'];
 
-    // Use the validation logic
     if (filter_var($userEmail, FILTER_VALIDATE_EMAIL)) { 
         
         $mail = new PHPMailer(true);
 
         try {
-            //Server settings
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
@@ -62,7 +51,7 @@ $dbname     = $_ENV['DB_NAME'];
             echo 'Message has been sent successfully!';
 
             // INSERT USER INTO DATABASE
-            $stmt = $conn->prepare("INSERT INTO users (name, email) VALUES (?, ?)");
+            $stmt = $conn->prepare("INSERT INTO app_users (name, email) VALUES (?, ?)");
             $stmt->bind_param("ss", $userName, $userEmail);
 
             if ($stmt->execute()) {
@@ -80,6 +69,6 @@ $dbname     = $_ENV['DB_NAME'];
     } else {
         echo "Invalid email address."; 
     }
-    $conn->close(); // Close the database connection
+    $conn->close();
 }
 ?>
