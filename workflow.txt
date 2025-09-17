@@ -1,0 +1,19 @@
+Git Workflow for this project
+
+1. Initialize repository (first time):
+   git init
+
+2. Check status of files:
+   git status
+
+3. Stage changes:
+   git add .
+
+4. Commit changes with a message:
+   git commit -m "Implemented numbered user list and added git workflow doc"
+
+5. Add remote (at first):
+   git remote add origin https://github.com/USERNAME/REPO_NAME.git
+
+6. Push changes to remote:
+   git push origin main
