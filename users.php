@@ -6,11 +6,11 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 // Load database credentials securely from the .env file
-$servername = $_ENV['DB_HOST'];
-$username   = $_ENV['DB_USER'];
-$password   = $_ENV['DB_PASS'];
-$port       = $_ENV['DB_PORT'];
-$dbname     = $_ENV['DB_NAME'];
+$servername = $_ENV['localhost'];
+$username   = $_ENV['root'];
+$password   = $_ENV['123456'];
+// $port       = $_ENV['DbPort'];
+$dbname     = $_ENV['Users'];
 
 
 
