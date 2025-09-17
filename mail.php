@@ -47,7 +47,7 @@ $dbname     = $_ENV['DB_NAME'];
             $mail->Port       = 465;
 
             //Recipients
-            $mail->setFrom('ics2.2@noreply.com', 'ICS 2.2');
+            $mail->setFrom('ics2.2@noreply.com', 'ICS 1.2');
             $mail->addAddress($userEmail, $userName);
 
             //Content
