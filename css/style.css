@@ -1,0 +1,96 @@
+/* Center body content vertically and horizontally */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container with fixed max width and padding */
+.container {
+    background: #fff;
+    width: 90%;
+    max-width: 480px;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+/* Heading style */
+h1 {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 30px;
+    letter-spacing: 1.2px;
+}
+
+/* Form section uses column layout */
+.form-section {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* full width inputs */
+}
+
+/* Label styling */
+label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95rem;
+    text-align: left;
+}
+
+/* Inputs full width with padding and border */
+input[type="text"],
+input[type="email"] {
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Focus effect on inputs */
+input[type="text"]:focus,
+input[type="email"]:focus {
+    border-color: #2575fc;
+    box-shadow: 0 0 8px rgba(37, 117, 252, 0.4);
+    outline: none;
+}
+
+/* Submit button styling */
+input[type="submit"] {
+    padding: 14px;
+    background: #2575fc;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Submit hover effect */
+input[type="submit"]:hover {
+    background: #1a52d1;
+    box-shadow: 0 6px 12px rgba(26, 82, 209, 0.5);
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        padding: 30px 20px;
+    }
+}

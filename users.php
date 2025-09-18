@@ -20,6 +20,8 @@ if ($conn->connect_error) {
 $sql = "SELECT id, name, email, reg_date FROM app_users ORDER BY id ASC";
 $result = $conn->query($sql);
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +43,7 @@ $result = $conn->query($sql);
                      " - Registered: " . $row["reg_date"] . "</li>";
             }
         } else {
-            echo "<li>No users found.</li>";
+            echo "<li>No users found.</li>";    
         }
         $conn->close();
         ?>
