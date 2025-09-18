@@ -8,19 +8,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
 
-$servername = $_ENV['DB_HOST'];
-$username   = $_ENV['DB_USER'];
-$password   = $_ENV['DB_PASS'];
-$port       = $_ENV['DB_PORT'];
-$dbname     = $_ENV['DB_NAME'];
+    $servername = $_ENV['DB_HOST'];
+    $username   = $_ENV['DB_USER'];
+    $password   = $_ENV['DB_PASS'];
+    $port       = $_ENV['DB_PORT'];
+    $dbname     = $_ENV['DB_NAME'];
 
     $conn = new mysqli($servername, $username, $password, $dbname, $port);
 
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-        $userEmail = $_POST['email'];
+
+    $userEmail = $_POST['email'];
     $userName = $_POST['name'];
+    $userPassword = $_POST['password'];
+    $hashedPassword = password_hash($userPassword, PASSWORD_DEFAULT);
 
     if (filter_var($userEmail, FILTER_VALIDATE_EMAIL)) { 
         
@@ -48,16 +51,16 @@ $dbname     = $_ENV['DB_NAME'];
                              "Regards,<br>Systems Admin<br>ICS 2.2";
             
             $mail->send();
-            echo 'Message has been sent successfully!';
 
-            
+            $stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $userName, $userEmail, $hashedPassword);
+            $stmt->execute();
+            $stmt->close();
 
-// INSERT USER INTO DATABASE
-$stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
-$stmt->bind_param("sss", $userName, $userEmail, $hashedPassword);
-            
-            
-    } catch (Exception $e) {
+            header("Location: index.php");
+            exit();
+
+        } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
         
@@ -66,5 +69,4 @@ $stmt->bind_param("sss", $userName, $userEmail, $hashedPassword);
     }
     $conn->close();
 }
-            
 ?>
