@@ -43,8 +43,8 @@ $dbname     = $_ENV['DB_NAME'];
             $mail->isHTML(true);
             $mail->Subject = 'Welcome to BBIT 2.2! Account Verification';
             $mail->Body    = "Hello " . htmlspecialchars($userName) . ",<br><br>" .
-                             "You requested an account on ICS 2.2.<br><br>" .
-                             "In order to use this account you need to <a href='#'>Click Here</a> to complete the registration process.<br><br>" .
+                             "You requested an account on BBIT 2.2.<br><br>" .
+                             "In order to use this account you need to <a href='index.php'>Click Here</a> to complete the registration process.<br><br>" .
                              "Regards,<br>Systems Admin<br>ICS 2.2";
             
             $mail->send();
@@ -52,28 +52,12 @@ $dbname     = $_ENV['DB_NAME'];
 
             
 
-            // INSERT USER INTO DATABASE
-            $stmt = $conn->prepare("INSERT INTO app_users (name, email) VALUES (?, ?)");
-            $stmt->bind_param("ss", $userName, $userEmail);
-
-            if ($stmt->execute()) {
-                echo "<br>User registered successfully in the database.";
-                $stmt = $conn->prepare("Select * FROM app_users");
-                
-                echo "<br>Current Users in Database:<br>";
-                $stmt->execute();
-                $result = $stmt->get_result();
-                while ($row = $result->fetch_assoc()) {
-                    echo "Name: " . htmlspecialchars($row['name']) . ", Email: " . htmlspecialchars($row['email']) . "<br>";
-                }
-
-            } else {
-                echo "<br>Error: " . $stmt->error;
-            }
-            $stmt->close();
+// INSERT USER INTO DATABASE
+$stmt = $conn->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+$stmt->bind_param("sss", $userName, $userEmail, $hashedPassword);
             
             
-        } catch (Exception $e) {
+    } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
         
@@ -82,4 +66,5 @@ $dbname     = $_ENV['DB_NAME'];
     }
     $conn->close();
 }
+            
 ?>
